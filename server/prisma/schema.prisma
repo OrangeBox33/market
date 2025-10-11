@@ -7,20 +7,71 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum EOrderStatus {
+  new
+  processing
+  done
+  cancelled
+}
+
+enum EUserRole {
+  user
+  admin
+}
+
 model User {
-  id        Int      @id @default(autoincrement())
-  phone     String   @unique
-  name      String
+  id        Int       @id @default(autoincrement())
+  phone     String    @unique
+  role      EUserRole @default(user)
+  name      String?
   email     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  orders    Order[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String
+  slug      String    @unique
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Product {
   id          Int      @id @default(autoincrement())
   name        String
-  description String?
-  price       Float
+  description String
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+  price       Int
+  stock       Int      @default(0)
+  images      Json     @default("[]")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model Order {
+  id             Int          @id @default(autoincrement())
+  user           User         @relation(fields: [userId], references: [id])
+  userId         Int
+  items          Json         @default("[]")
+  totalPrice     Int
+  deliveryMethod String       @default("pickup")
+  status         EOrderStatus @default(new)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model Otp {
+  id        Int      @id @default(autoincrement())
+  phone     String
+  codeHash  String
+  expiresAt DateTime
+  attempts  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([phone, expiresAt])
 }

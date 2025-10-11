@@ -1,16 +1,30 @@
 import express from 'express';
 import cors from 'cors';
-import { PrismaClient } from '@prisma/client';
+import path from 'path';
+import dotenv from 'dotenv';
+import healthRoutes from './routes/health';
+import publicRoutes from './routes/public';
+import authRoutes from './routes/auth';
+import ordersRoutes from './routes/orders';
+import adminRoutes from './routes/admin';
+
+dotenv.config();
+console.log('Database URL:', process.env.DATABASE_URL);
 
 const app = express();
-const prisma = new PrismaClient();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(express.static(path.join(__dirname, '../public')));
 
 app.use(cors());
 app.use(express.json());
 
-app.get('/api/products', async (_, res) => {
-	const products = await prisma.product.findMany();
-	res.json(products);
-});
+// Routes
+app.use('/', healthRoutes);
+app.use('/api', publicRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api', ordersRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.listen(3001, () => console.log('Backend running on http://localhost:3001'));
