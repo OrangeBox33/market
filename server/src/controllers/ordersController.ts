@@ -1,13 +1,15 @@
 import { Response } from 'express';
 import { prisma } from '../db/prisma';
 import { TAuthedRequest } from '../types/auth';
+import { TContact } from '../types/types';
 
 export const createOrder = async (req: TAuthedRequest, res: Response) => {
 	try {
 		if (!req.user) return res.status(401).json({ message: 'Unauthorized' });
 
-		const { items, contactInfo, deliveryMethod = 'pickup' } = req.body || {};
-		if (!Array.isArray(items) || items.length === 0) return res.status(400).json({ message: 'Items required' });
+		const { items, contactInfo, deliveryMethod } = req.body || {};
+		if (!Array.isArray(items) || items.length === 0)
+			return res.status(400).json({ message: 'Items required' });
 
 		// Проверяем корректность данных
 		const qtyById: Record<number, number> = {};
@@ -26,10 +28,12 @@ export const createOrder = async (req: TAuthedRequest, res: Response) => {
 			where: { id: { in: productIds } },
 		});
 
-		if (dbProducts.length !== productIds.length) return res.status(400).json({ message: 'Some products not found' });
+		if (dbProducts.length !== productIds.length)
+			return res.status(400).json({ message: 'Some products not found' });
 
 		for (const p of dbProducts) {
-			if (p.stock < qtyById[p.id]) return res.status(400).json({ message: `Insufficient stock for product ${p.id}` });
+			if (p.stock < qtyById[p.id])
+				return res.status(400).json({ message: `Insufficient stock for product ${p.id}` });
 		}
 
 		// 💾 Транзакция: создаём заказ + уменьшаем stock
@@ -44,7 +48,7 @@ export const createOrder = async (req: TAuthedRequest, res: Response) => {
 				snapshot.push({
 					productId: p.id,
 					name: p.name,
-					priceAtOrder: p.price,
+					price: p.price,
 					qty,
 				});
 
@@ -57,7 +61,8 @@ export const createOrder = async (req: TAuthedRequest, res: Response) => {
 			return tx.order.create({
 				data: {
 					userId: req.user!.id,
-					items: { items: snapshot, contactInfo },
+					items: snapshot,
+					contact: JSON.stringify(contactInfo),
 					totalPrice: total,
 					deliveryMethod,
 					status: 'new',
@@ -65,10 +70,32 @@ export const createOrder = async (req: TAuthedRequest, res: Response) => {
 			});
 		});
 
+		if (contactInfo?.address) {
+			const user = await prisma.user.findUnique({
+				where: { id: req.user.id },
+				select: { contacts: true },
+			});
+
+			if (
+				((user?.contacts as TContact[]) || []).some(
+					contact => contact.address === contactInfo.address
+				)
+			) {
+				prisma.user.update({
+					where: { id: req.user.id },
+					data: {
+						contacts: {
+							push: contactInfo,
+						},
+					},
+				});
+			}
+		}
+
 		return res.status(201).json({ id: order.id });
 	} catch (error) {
 		console.error('createOrder error:', error);
-		return res.status(500).json({ message: 'Failed to create order' });
+		return res.status(501).json({ message: 'Failed to create order' });
 	}
 };
 
@@ -86,13 +113,14 @@ export const listOrders = async (req: TAuthedRequest, res: Response) => {
 				deliveryMethod: true,
 				status: true,
 				createdAt: true,
+				items: true,
 			},
 		});
 
 		return res.status(200).json(orders);
 	} catch (error) {
 		console.error('listOrders error:', error);
-		return res.status(500).json({ message: 'Failed to fetch orders' });
+		return res.status(501).json({ message: 'Failed to fetch orders' });
 	}
 };
 
@@ -114,6 +142,6 @@ export const getOrderById = async (req: TAuthedRequest, res: Response) => {
 		return res.status(200).json(order);
 	} catch (error) {
 		console.error('getOrderById error:', error);
-		return res.status(500).json({ message: 'Failed to fetch order' });
+		return res.status(501).json({ message: 'Failed to fetch order' });
 	}
 };

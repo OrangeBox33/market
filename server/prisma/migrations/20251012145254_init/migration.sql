@@ -1,26 +1,21 @@
-/*
-  Warnings:
-
-  - You are about to alter the column `price` on the `Product` table. The data in that column could be lost. The data in that column will be cast from `DoublePrecision` to `Integer`.
-  - Added the required column `categoryId` to the `Product` table without a default value. This is not possible if the table is not empty.
-  - Made the column `description` on table `Product` required. This step will fail if there are existing NULL values in that column.
-
-*/
 -- CreateEnum
 CREATE TYPE "EOrderStatus" AS ENUM ('new', 'processing', 'done', 'cancelled');
 
 -- CreateEnum
 CREATE TYPE "EUserRole" AS ENUM ('user', 'admin');
 
--- AlterTable
-ALTER TABLE "Product" ADD COLUMN     "categoryId" INTEGER NOT NULL,
-ADD COLUMN     "images" JSONB NOT NULL DEFAULT '[]',
-ADD COLUMN     "stock" INTEGER NOT NULL DEFAULT 0,
-ALTER COLUMN "description" SET NOT NULL,
-ALTER COLUMN "price" SET DATA TYPE INTEGER;
+-- CreateTable
+CREATE TABLE "User" (
+    "id" SERIAL NOT NULL,
+    "phone" TEXT NOT NULL,
+    "role" "EUserRole" NOT NULL DEFAULT 'user',
+    "name" TEXT,
+    "email" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
--- AlterTable
-ALTER TABLE "User" ADD COLUMN     "role" "EUserRole" NOT NULL DEFAULT 'user';
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "Category" (
@@ -31,6 +26,21 @@ CREATE TABLE "Category" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Product" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "categoryId" INTEGER NOT NULL,
+    "price" INTEGER NOT NULL,
+    "stock" INTEGER NOT NULL DEFAULT 0,
+    "images" JSONB NOT NULL DEFAULT '[]',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -59,6 +69,9 @@ CREATE TABLE "Otp" (
 
     CONSTRAINT "Otp_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_phone_key" ON "User"("phone");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Category_slug_key" ON "Category"("slug");

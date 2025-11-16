@@ -29,7 +29,7 @@ export const adminCreateProduct = async (req: TAuthedRequest, res: Response) => 
 		console.log(`[ADMIN] created product id=${product.id}`);
 		return res.status(201).json({ id: product.id });
 	} catch (error) {
-		return res.status(500).json({ message: 'Failed to create product' });
+		return res.status(501).json({ message: 'Failed to create product' });
 	}
 };
 
@@ -66,7 +66,7 @@ export const adminUpdateProduct = async (req: TAuthedRequest, res: Response) => 
 		console.log(`[ADMIN] updated product id=${updated.id}`);
 		return res.status(200).json({ ok: true });
 	} catch (error) {
-		return res.status(500).json({ message: 'Failed to update product' });
+		return res.status(501).json({ message: 'Failed to update product' });
 	}
 };
 
@@ -82,7 +82,7 @@ export const adminDeleteProduct = async (req: TAuthedRequest, res: Response) => 
 		console.log(`[ADMIN] deleted product id=${id}`);
 		return res.status(200).json({ ok: true });
 	} catch (error) {
-		return res.status(500).json({ message: 'Failed to delete product' });
+		return res.status(501).json({ message: 'Failed to delete product' });
 	}
 };
 
@@ -103,6 +103,6 @@ export const adminListProducts = async (req: TAuthedRequest, res: Response) => {
 
 		return res.status(200).json({ items, total, page, perPage });
 	} catch (error) {
-		return res.status(500).json({ message: 'Failed to list products' });
+		return res.status(501).json({ message: 'Failed to list products' });
 	}
 };

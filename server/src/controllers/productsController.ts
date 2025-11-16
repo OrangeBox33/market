@@ -47,19 +47,19 @@ export const listProducts = async (req: TAuthedRequest, res: Response) => {
 			prisma.product.count({ where }),
 		]);
 
-		const mapped = items.map(p => ({
+		const products = items.map(p => ({
 			id: p.id,
 			name: p.name,
 			price: p.price,
 			stock: p.stock,
-			image: Array.isArray(p.images) && p.images.length > 0 ? p.images[0] : null,
+			images: p.images as string[],
 			categoryId: p.categoryId,
 		}));
 
-		return res.status(200).json({ items: mapped, total, page, perPage });
+		return res.status(200).json({ items: products, total, page, perPage });
 	} catch (error) {
 		console.error(error);
-		return res.status(500).json({ message: 'Failed to fetch products' });
+		return res.status(501).json({ message: 'Failed to fetch products' });
 	}
 };
 
@@ -87,10 +87,10 @@ export const getProductById = async (req: TAuthedRequest, res: Response) => {
 			price: product.price,
 			stock: product.stock,
 			images: product.images,
-			category: product.category ?? null,
+			categoryId: product.category.id ?? null,
 		});
 	} catch (error) {
 		console.error(error);
-		return res.status(500).json({ message: 'Failed to fetch product' });
+		return res.status(501).json({ message: 'Failed to fetch product' });
 	}
 };

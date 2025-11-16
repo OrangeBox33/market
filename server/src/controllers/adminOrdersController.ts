@@ -32,7 +32,7 @@ export const adminListOrders = async (req: TAuthedRequest, res: Response) => {
 		return res.status(200).json({ items, total, page, perPage });
 	} catch (error) {
 		console.error(error);
-		return res.status(500).json({ message: 'Failed to list orders' });
+		return res.status(501).json({ message: 'Failed to list orders' });
 	}
 };
 
@@ -52,7 +52,7 @@ export const adminGetOrder = async (req: TAuthedRequest, res: Response) => {
 		return res.status(200).json(order);
 	} catch (error) {
 		console.error(error);
-		return res.status(500).json({ message: 'Failed to fetch order' });
+		return res.status(501).json({ message: 'Failed to fetch order' });
 	}
 };
 
@@ -78,6 +78,6 @@ export const adminUpdateOrderStatus = async (req: TAuthedRequest, res: Response)
 		// Если заказ не найден, prisma.update выбросит ошибку P2025
 		if (error.code === 'P2025') return res.status(404).json({ message: 'Order not found' });
 		console.error(error);
-		return res.status(500).json({ message: 'Failed to update order' });
+		return res.status(501).json({ message: 'Failed to update order' });
 	}
 };

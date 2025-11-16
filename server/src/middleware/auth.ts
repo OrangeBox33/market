@@ -1,6 +1,6 @@
 import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { TAuthedRequest, TAuthPayload } from '../types/auth';
+import { TAuthedRequest, TUser } from '../types/auth';
 
 export const requireAuth = (req: TAuthedRequest, res: Response, next: NextFunction) => {
 	try {
@@ -8,7 +8,7 @@ export const requireAuth = (req: TAuthedRequest, res: Response, next: NextFuncti
 		const [scheme, token] = auth.split(' ');
 		if (scheme !== 'Bearer' || !token) return res.status(401).json({ message: 'Unauthorized' });
 		const secret = process.env.JWT_SECRET || 'dev-secret';
-		const payload = jwt.verify(token, secret) as TAuthPayload;
+		const payload = jwt.verify(token, secret) as TUser;
 		req.user = payload;
 		return next();
 	} catch {
