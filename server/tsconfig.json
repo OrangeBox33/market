@@ -14,10 +14,7 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "paths": {
-      "@shared/*": ["../shared/*"]
-    }
   },
-  "include": ["src/*"],
+  "include": ["src/*", "src/types"],
   "exclude": ["node_modules", "dist"]
 }

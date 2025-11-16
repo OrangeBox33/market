@@ -1,11 +1,13 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
+import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
-	plugins: [react()],
+	root: path.resolve(__dirname, '.'),
+	plugins: [react(), svgr({ svgrOptions: { exportType: 'named' } })],
 	server: {
-		port: 5000,
+		port: 3333,
 		proxy: {
 			'/api': 'http://localhost:3001',
 		},
@@ -13,6 +15,7 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			'@shared': path.resolve(__dirname, '../shared'),
+			'@src': path.resolve(__dirname, 'src'),
 		},
 	},
 });
