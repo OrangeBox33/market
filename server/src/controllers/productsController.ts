@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { prisma } from '../db/prisma';
+import { prisma } from '../prisma/prisma';
 import { TAuthedRequest } from '../types/auth';
 import { parsePositiveInt } from '../utils/numbers';
 

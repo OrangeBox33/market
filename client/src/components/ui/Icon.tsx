@@ -6,6 +6,7 @@ type TIconProps = {
 	width: number;
 	height: number;
 	color: string;
+	className?: string;
 };
 
 const StyledIconContainer = styled.div<{ width: number; height: number; color: string }>`
@@ -29,9 +30,9 @@ const StyledSVGWrapper = styled.div`
 	}
 `;
 
-export const Icon: React.FC<TIconProps> = ({ SVG, width, height, color }) => {
+export const Icon: React.FC<TIconProps> = ({ SVG, width, height, color, className }) => {
 	return (
-		<StyledIconContainer width={width} height={height} color={color}>
+		<StyledIconContainer width={width} height={height} color={color} className={className}>
 			<StyledSVGWrapper>
 				<SVG />
 			</StyledSVGWrapper>

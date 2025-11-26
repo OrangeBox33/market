@@ -1,7 +1,7 @@
 import { Response } from 'express';
-import { prisma } from '../db/prisma';
 import { TAuthedRequest } from '../types/auth';
 import { TContact } from '../types/types';
+import { prisma } from '../prisma/prisma';
 
 export const createOrder = async (req: TAuthedRequest, res: Response) => {
 	try {

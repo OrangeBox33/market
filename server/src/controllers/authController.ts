@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { prisma } from '../db/prisma';
+import { prisma } from '../prisma/prisma';
 import { compareHash, makeHash, normalizePhone } from '../utils/auth';
 import { TUser } from '../types/auth';
 
@@ -112,7 +112,7 @@ export const verifyOtp = async (req: Request, res: Response) => {
 
 export const auth = async (req: Request, res: Response) => {
 	try {
-		const token = req.cookies.jwt;
+		const token = req.cookies?.jwt;
 
 		if (!token) {
 			return res.status(200).json({ user: null, message: 'No token provided' });

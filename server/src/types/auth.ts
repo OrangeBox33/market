@@ -1,5 +1,5 @@
-import { EUserRole } from '@prisma/client';
 import { Request } from 'express';
+import { EUserRole } from '../prisma/generated/enums';
 
 export interface TUser {
 	id: number;

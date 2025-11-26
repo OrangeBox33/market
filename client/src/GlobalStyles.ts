@@ -1,5 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import NunitoRegular from '@src/assets/fonts/Nunito-Regular.ttf';
+import { colorMap } from './components/ui/constants';
 
 export const GlobalStyles = createGlobalStyle`
   @font-face {
@@ -20,8 +21,8 @@ export const GlobalStyles = createGlobalStyle`
     padding: 0;
     font-family: 'Nunito', sans-serif;
     font-weight: 400;
-    background-color: #fff;
-    color: #111;
+    background-color: ${colorMap.backgroundLight};
+    color: ${colorMap.primary};
     line-height: 1.5;
   }
 

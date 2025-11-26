@@ -9,5 +9,5 @@ fi
 
 MIGRATION_NAME=$1
 
-npx prisma migrate dev --schema server/prisma/schema.prisma --name "$MIGRATION_NAME"
-npx prisma generate --schema server/prisma/schema.prisma
+npx prisma migrate dev --name "$MIGRATION_NAME"
+npx prisma generate

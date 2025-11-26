@@ -1,29 +1,29 @@
 import { TNormalizedError } from '@src/api/types/response';
 import { useEffect, useState } from 'react';
 
-export const useLoading = <TData>(promise: Promise<TData>) => {
+export const useLoading = <TData>(loader: () => Promise<TData>) => {
 	const [data, setData] = useState<TData | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<TNormalizedError | null>(null);
 
 	useEffect(() => {
-		let isMount = true; // если компонент размонтируется
+		let isMounted = true;
 
-		promise
+		loader()
 			.then(result => {
-				if (isMount) setData(result);
+				if (isMounted) setData(result);
 			})
 			.catch(err => {
-				if (isMount) setError(err);
+				if (isMounted) setError(err);
 			})
 			.finally(() => {
-				if (isMount) setIsLoading(false);
+				if (isMounted) setIsLoading(false);
 			});
 
 		return () => {
-			isMount = false;
+			isMounted = false;
 		};
-	}, []);
+	}, [loader]);
 
 	return { data, isLoading, error };
 };

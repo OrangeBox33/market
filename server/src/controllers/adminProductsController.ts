@@ -1,16 +1,18 @@
 import { Response } from 'express';
 import { TAuthedRequest } from '../types/auth';
-import { prisma } from '../db/prisma';
+import { prisma } from '../prisma/prisma';
 import { parsePositiveInt } from '../utils/numbers';
 
 export const adminCreateProduct = async (req: TAuthedRequest, res: Response) => {
 	try {
 		const { name, description, price, stock, categoryId, images } = req.body || {};
 
-		if (!name || typeof name !== 'string') return res.status(400).json({ message: 'name required' });
+		if (!name || typeof name !== 'string')
+			return res.status(400).json({ message: 'name required' });
 		if (!Number.isFinite(Number(price))) return res.status(400).json({ message: 'price required' });
 		if (!Number.isFinite(Number(stock))) return res.status(400).json({ message: 'stock required' });
-		if (!Number.isFinite(Number(categoryId))) return res.status(400).json({ message: 'categoryId required' });
+		if (!Number.isFinite(Number(categoryId)))
+			return res.status(400).json({ message: 'categoryId required' });
 
 		const category = await prisma.category.findUnique({ where: { id: Number(categoryId) } });
 		if (!category) return res.status(400).json({ message: 'Category not found' });

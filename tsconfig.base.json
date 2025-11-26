@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2021",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "target": "ES2023",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,

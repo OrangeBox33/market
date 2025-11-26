@@ -15,6 +15,7 @@ interface GridProps {
 	alignItems?: string;
 	placeItems?: string;
 	children?: ReactNode;
+	className?: string;
 }
 
 const StyledGrid = styled.div<GridProps>`

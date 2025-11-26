@@ -6,4 +6,6 @@ export const colorMap: Record<TColors, string> = {
 	tertiary: '#e3bbbd',
 	quaternary: '#df949d',
 	background: '#f7efda',
+	backgroundLight: '#f5f1e9',
+	white: '#ffffff',
 };
