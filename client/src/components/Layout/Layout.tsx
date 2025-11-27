@@ -1,13 +1,13 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import type { RootState } from '../../store/store';
-import { logout, selectUser } from '../../store/slices/userSlice';
-import { useAppSelector } from '../../store/hooks';
 import { selectDevice } from '@src/store/slices/settingsSlice';
+import { useAppSelector } from '../../store/hooks';
+import { logout, selectUser } from '../../store/slices/userSlice';
+import type { RootState } from '../../store/store';
+import { Header } from '../Header';
 import { MobileMenu } from '../MobileMenu';
 import { StyledLayout } from './styled';
-import { Header } from '../Header';
 
 interface LayoutProps {
 	children: React.ReactNode;

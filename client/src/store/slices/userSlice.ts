@@ -1,7 +1,7 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TUserResponse } from '@src/api/types/response';
+import { TUser } from '../../common/types/user';
 import { verifyOtp } from '../thunk/user';
-import { TUser } from '../../utils/types/user';
 
 type TUserState = Partial<TUser> & Pick<TUser, 'isAuth'> & { isLoading: boolean };
 

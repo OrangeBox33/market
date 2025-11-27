@@ -1,15 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {
-	removeFromCart,
-	updateQuantity,
-	clearCart,
-	selectCart,
-} from '../../store/slices/cartSlice';
 import { useAppSelector } from '@src/store/hooks';
 import { selectUser } from '@src/store/slices/userSlice';
+import styled from 'styled-components';
+import {
+	clearCart,
+	removeFromCart,
+	selectCart,
+	updateQuantity,
+} from '../../store/slices/cartSlice';
 
 const Container = styled.div`
 	max-width: 800px;

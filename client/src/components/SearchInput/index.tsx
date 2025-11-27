@@ -1,3 +1,9 @@
+import { FC, useState } from 'react';
+import SearchSVG from '@src/assets/svg/search.svg?react';
+import { TProductForSearch } from '@src/common/types/product';
+import { searchProducts } from '@src/engine/searchEngine';
+import { Icon } from '../ui/Icon';
+import { colorMap } from '../ui/constants';
 import {
 	StyledContainer,
 	StyledIconContainer,
@@ -5,33 +11,12 @@ import {
 	StyledSuggestions,
 	StyledSuggestionsItem,
 } from './styled';
-import { FC, useState, useEffect } from 'react';
-import { ReactComponent as SearchSVG } from '@src/assets/svg/search.svg?react';
-import { colorMap } from '../ui/constants';
-import { Icon } from '../ui/Icon';
-import Fuse from 'fuse.js';
-import CyrillicToTranslit from 'cyrillic-to-translit-js';
-
-const products = [
-	{ id: 1, name: 'Product 1', translit: 'product-1' },
-	{ id: 2, name: 'Product 2', translit: 'product-2' },
-	{ id: 3, name: 'shampoon', translit: 'shampoon' },
-	{ id: 4, name: 'head & shoulders', translit: 'head-and-shoulders' },
-];
-
-const fuse = new Fuse(products, {
-	keys: ['name', 'translit'],
-	threshold: 0.5,
-	ignoreLocation: true,
-	includeScore: true,
-});
-const cyrillicToTranslit = CyrillicToTranslit();
 
 type SearchInputProps = {};
 
 export const SearchInput: FC<SearchInputProps> = () => {
 	const [text, setText] = useState('');
-	const [suggestions, setSuggestions] = useState<typeof products>([]);
+	const [suggestions, setSuggestions] = useState<TProductForSearch[]>([]);
 	const [isFocusInput, setIsFocusInput] = useState(false);
 
 	const isShowSuggestion = isFocusInput && suggestions.length > 0;
@@ -41,12 +26,8 @@ export const SearchInput: FC<SearchInputProps> = () => {
 		setText(value);
 
 		if (value.trim().length > 0) {
-			console.log(cyrillicToTranslit.transform(value));
-			const results = fuse
-				.search(cyrillicToTranslit.transform(value))
-				.slice(0, 5)
-				.map(result => result.item);
-			console.log('results', results);
+			const results = searchProducts(value);
+
 			setSuggestions(results);
 		} else {
 			setSuggestions([]);

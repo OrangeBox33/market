@@ -1,13 +1,13 @@
+import cors from 'cors';
 import 'dotenv/config';
 import express from 'express';
-import cors from 'cors';
 import path from 'path';
-import healthRoutes from './routes/health';
-import publicRoutes from './routes/public';
-import authRoutes from './routes/auth';
-import ordersRoutes from './routes/orders';
-import adminRoutes from './routes/admin';
 import { startProductsListener } from './listeners/products-listener';
+import adminRoutes from './routes/admin';
+import authRoutes from './routes/auth';
+import healthRoutes from './routes/health';
+import ordersRoutes from './routes/orders';
+import publicRoutes from './routes/public';
 
 console.log('Database URL:', process.env.DATABASE_URL);
 

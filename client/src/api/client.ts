@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { TCategory, TOrder, TProduct, TProductForSearch } from '../common/types/product';
 import { TPaginationRequest } from './types/request';
 import {
 	TNormalizedError,
@@ -6,7 +7,6 @@ import {
 	TSendOtpResponse,
 	TUserResponse,
 } from './types/response';
-import { TCategory, TOrder, TProduct } from '../utils/types/product';
 
 class ApiService {
 	private client: AxiosInstance;
@@ -63,35 +63,39 @@ class ApiService {
 	// ========== Categories ==========
 	getCategories = () => {
 		return this.get<TCategory[]>('/categories');
-	}
+	};
 
 	// ========== Products ==========
 	getProducts = ({ page, perPage, category }: TPaginationRequest & { category?: string }) => {
 		return this.get<TProductsResponse>('/products', {
 			params: { page, perPage, category },
 		});
-	}
+	};
 
 	getProduct = (id: number) => {
 		return this.get<TProduct>(`/products/${id}`);
-	}
+	};
+
+	getProductsForSearch = () => {
+		return this.get<TProductForSearch[]>('/products-for-search');
+	};
 
 	// ========== Auth ==========
 	sendOtp = (phone: string) => {
 		return this.post<TSendOtpResponse>('/auth/send-otp', { phone });
-	}
+	};
 
 	verifyOtp = (data: { phone: string; code: string }) => {
 		return this.post<TUserResponse>('/auth/verify-otp', data);
-	}
+	};
 
 	auth = () => {
 		return this.get<TUserResponse | null>('/auth');
-	}
+	};
 
 	logout = () => {
 		return this.post('/auth/logout');
-	}
+	};
 
 	// ========== Orders ==========
 	createOrder = (orderData: {
@@ -100,20 +104,20 @@ class ApiService {
 		contactInfo?: any;
 	}) => {
 		return this.post('/orders', orderData);
-	}
+	};
 
 	getOrders = () => {
 		return this.get<TOrder[]>('/orders');
-	}
+	};
 
 	getOrder = (id: number) => {
 		return this.get(`/orders/${id}`);
-	}
+	};
 
 	// ========== Admin Products ==========
 	adminGetProducts = ({ page, perPage }: TPaginationRequest) => {
 		return this.get('/admin/products', { params: { page, perPage } });
-	}
+	};
 
 	adminCreateProduct = (productData: {
 		title: string;
@@ -124,7 +128,7 @@ class ApiService {
 		images: string[];
 	}) => {
 		return this.post('/admin/products', productData);
-	}
+	};
 
 	adminUpdateProduct = (data: {
 		id: number;
@@ -137,24 +141,24 @@ class ApiService {
 	}) => {
 		const { id, ...productData } = data;
 		return this.put(`/admin/products/${id}`, productData);
-	}
+	};
 
 	adminDeleteProduct = (id: number) => {
 		return this.delete(`/admin/products/${id}`);
-	}
+	};
 
 	// ========== Admin Orders ==========
 	adminGetOrders = ({ page, perPage, status }: TPaginationRequest & { status?: string }) => {
 		return this.get('/admin/orders', { params: { page, perPage, status } });
-	}
+	};
 
 	adminGetOrder = (id: number) => {
 		return this.get(`/admin/orders/${id}`);
-	}
+	};
 
 	adminUpdateOrderStatus = (data: { id: number; status: string }) => {
 		return this.put(`/admin/orders/${data.id}`, { status: data.status });
-	}
+	};
 }
 
 export const api = new ApiService();

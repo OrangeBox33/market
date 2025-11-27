@@ -1,5 +1,5 @@
-import { createGlobalStyle } from 'styled-components';
 import NunitoRegular from '@src/assets/fonts/Nunito-Regular.ttf';
+import { createGlobalStyle } from 'styled-components';
 import { colorMap } from './components/ui/constants';
 
 export const GlobalStyles = createGlobalStyle`

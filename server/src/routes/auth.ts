@@ -1,5 +1,5 @@
-import { auth, logout, sendOtp, verifyOtp } from './../controllers/authController';
 import express from 'express';
+import { auth, logout, sendOtp, verifyOtp } from './../controllers/authController';
 
 const router = express.Router();
 

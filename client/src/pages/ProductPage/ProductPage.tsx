@@ -1,11 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
-import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { addToCart } from '../../store/slices/cartSlice';
-import { LoadingSpinner } from '../../components/LoadingSpinner';
-import { useLoading } from '../../utils/hooks/hooks';
+import { useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
 import { api } from '../../api/client';
+import { useLoading } from '../../common/hooks/hooks';
+import { LoadingSpinner } from '../../components/LoadingSpinner';
+import { addToCart } from '../../store/slices/cartSlice';
 
 const Container = styled.div`
 	max-width: 800px;

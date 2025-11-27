@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { LoadingSpinner } from '../components/LoadingSpinner';
 import { api } from '../api/client';
-import { useLoading } from '../utils/hooks/hooks';
+import { useLoading } from '../common/hooks/hooks';
+import { LoadingSpinner } from '../components/LoadingSpinner';
 
 const Container = styled.div`
 	max-width: 1200px;

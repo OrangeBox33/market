@@ -1,6 +1,6 @@
 import express from 'express';
-import { createOrder, getOrderById, listOrders } from './../controllers/ordersController';
 import { requireAuth } from '../middleware/auth';
+import { createOrder, getOrderById, listOrders } from './../controllers/ordersController';
 
 const router = express.Router();
 

@@ -1,8 +1,8 @@
-import { prisma } from '../prisma/prisma';
-import { parsePositiveInt } from './../utils/numbers';
 import { Response } from 'express';
-import { TAuthedRequest } from '../types/auth';
 import { EOrderStatus } from '../prisma/generated/enums';
+import { prisma } from '../prisma/prisma';
+import { TAuthedRequest } from '../types/auth';
+import { parsePositiveInt } from './../utils/numbers';
 
 // Получение списка заказов (админ)
 export const adminListOrders = async (req: TAuthedRequest, res: Response) => {

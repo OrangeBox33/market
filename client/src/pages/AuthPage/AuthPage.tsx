@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { selectUser, setUser } from '../../store/slices/userSlice';
+import styled from 'styled-components';
 import { api } from '../../api/client';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { TNormalizedError } from '../../api/types/response';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { selectUser, setUser } from '../../store/slices/userSlice';
 
 const Container = styled.div`
 	max-width: 400px;

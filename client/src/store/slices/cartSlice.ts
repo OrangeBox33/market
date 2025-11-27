@@ -1,5 +1,5 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { CartItem, TProduct } from '@src/utils/types/product';
+import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { CartItem, TProduct } from '@src/common/types/product';
 
 interface CartState {
 	items: CartItem[];

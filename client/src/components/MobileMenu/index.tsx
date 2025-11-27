@@ -1,13 +1,13 @@
 import { FC } from 'react';
-import { StyledContainer, StyledItem } from './styled';
-import { ReactComponent as HomeSvg } from '@src/assets/svg/home.svg?react';
-import { ReactComponent as SearchSvg } from '@src/assets/svg/search.svg?react';
-import { ReactComponent as CartSvg } from '@src/assets/svg/cart.svg?react';
-import { ReactComponent as FavoriteSvg } from '@src/assets/svg/favorite.svg?react';
-import { ReactComponent as ProfileSvg } from '@src/assets/svg/profile.svg?react';
-import { Text } from '../ui/Text';
+import CartSvg from '@src/assets/svg/cart.svg?react';
+import FavoriteSvg from '@src/assets/svg/favorite.svg?react';
+import HomeSvg from '@src/assets/svg/home.svg?react';
+import ProfileSvg from '@src/assets/svg/profile.svg?react';
+import SearchSvg from '@src/assets/svg/search.svg?react';
 import { Icon } from '../ui/Icon';
+import { Text } from '../ui/Text';
 import { colorMap } from '../ui/constants';
+import { StyledContainer, StyledItem } from './styled';
 
 export const MobileMenu: FC = () => {
 	return (

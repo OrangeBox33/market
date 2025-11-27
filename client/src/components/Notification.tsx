@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Container, CloseButton } from '../../ui/StyledNotification';
+import { CloseButton, Container } from '../../ui/StyledNotification';
 
 interface NotificationProps {
 	message: string;
@@ -9,7 +9,13 @@ interface NotificationProps {
 	duration?: number;
 }
 
-const Notification: React.FC<NotificationProps> = ({ message, type, isVisible, onClose, duration = 3000 }) => {
+const Notification: React.FC<NotificationProps> = ({
+	message,
+	type,
+	isVisible,
+	onClose,
+	duration = 3000,
+}) => {
 	useEffect(() => {
 		if (isVisible && duration > 0) {
 			const timer = setTimeout(() => {

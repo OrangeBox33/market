@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Layout } from './components/Layout/Layout';
-import { AuthPage } from './pages/AuthPage/AuthPage';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { api } from './api/client';
-import { useAppDispatch } from './store/hooks';
-import { setUser } from './store/slices/userSlice';
+import { Layout } from './components/Layout/Layout';
+import { initSearchEngine } from './engine/searchEngine';
+import { AuthPage } from './pages/AuthPage/AuthPage';
+import { CartPage } from './pages/CartPage/CartPage';
+import { CategoriesPage } from './pages/CategoriesPage';
 import { HomePage } from './pages/HomePage/HomePage';
 import { ProductPage } from './pages/ProductPage/ProductPage';
-import { CartPage } from './pages/CartPage/CartPage';
 import { ProfilePage } from './pages/ProfilePage/ProfilePage';
-import { CategoriesPage } from './pages/CategoriesPage';
+import { useAppDispatch } from './store/hooks';
+import { setProductsForSearch } from './store/slices/productSlice';
+import { setUser } from './store/slices/userSlice';
 
 export const App: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -23,6 +25,16 @@ export const App: React.FC = () => {
 			.then(user => {
 				if (user) {
 					dispatch(setUser(user));
+				}
+			})
+			.catch(err => {
+				console.error(err);
+			});
+		api
+			.getProductsForSearch()
+			.then(productsForSearch => {
+				if (productsForSearch) {
+					initSearchEngine(productsForSearch);
 				}
 			})
 			.catch(err => {

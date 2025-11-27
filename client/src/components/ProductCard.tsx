@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { Button, Card, Content, Image, LinkStyled, Price, Title } from '../../ui/StyledProductCard';
 import { addToCart } from '../store/slices/cartSlice';
-import { Card, Image, Content, Title, Price, Button, LinkStyled } from '../../ui/StyledProductCard';
 
 interface Product {
 	id: number;
@@ -34,7 +34,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 	return (
 		<Card>
 			<LinkStyled to={`/product/${product.id}`}>
-				<Image src={product.image || 'https://via.placeholder.com/300x200?text=No+Image'} alt={product.title} />
+				<Image
+					src={product.image || 'https://via.placeholder.com/300x200?text=No+Image'}
+					alt={product.title}
+				/>
 				<Content>
 					<Title>{product.title}</Title>
 					<Price>{product.price.toLocaleString()} ₽</Price>

@@ -16,6 +16,12 @@ export type TProduct = {
 	categoryId: number;
 };
 
+export type TProductForSearch = {
+	id: number;
+	name: string;
+	translit: string | null;
+};
+
 export type TOrderItem = { productId: number; name: string; price: number; qty: number };
 
 export type TContact = {

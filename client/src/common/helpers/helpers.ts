@@ -1,4 +1,4 @@
-import { TDeviceType } from '../types/settings';
+import { TDeviceType } from '../../common/types/settings';
 
 export const isClient = () => typeof window !== 'undefined';
 

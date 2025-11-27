@@ -1,7 +1,13 @@
 import { Response } from 'express';
+import { productsForSearch } from '../listeners/products-listener';
 import { prisma } from '../prisma/prisma';
 import { TAuthedRequest } from '../types/auth';
 import { parsePositiveInt } from '../utils/numbers';
+
+// Получение одного продукта по id
+export const getProductForSearch = async (req: TAuthedRequest, res: Response) => {
+	return res.status(200).json(productsForSearch);
+};
 
 // Получение списка продуктов с пагинацией и фильтрацией по категории
 export const listProducts = async (req: TAuthedRequest, res: Response) => {

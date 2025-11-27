@@ -1,7 +1,7 @@
 import React, { JSX } from 'react';
 import styled from 'styled-components';
-import { TColors } from './types';
 import { colorMap } from './constants';
+import { TColors } from './types';
 
 type TextProps = {
 	size?: string;

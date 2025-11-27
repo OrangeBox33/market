@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { LoadingSpinner } from '../../components/LoadingSpinner';
-import { useLoading } from '../../utils/hooks/hooks';
+import styled from 'styled-components';
 import { api } from '../../api/client';
+import { useLoading } from '../../common/hooks/hooks';
+import { LoadingSpinner } from '../../components/LoadingSpinner';
 import { useAppSelector } from '../../store/hooks';
 import { selectUser } from '../../store/slices/userSlice';
 

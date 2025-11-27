@@ -1,11 +1,11 @@
 import { FC } from 'react';
-import styled from 'styled-components';
-import { SearchInput } from '@src/components/SearchInput';
-import { useLoading } from '@src/utils/hooks/hooks';
 import { api } from '@src/api/client';
+import { useLoading } from '@src/common/hooks/hooks';
+import { SearchInput } from '@src/components/SearchInput';
 import { Flexbox } from '@src/components/ui/Flexbox';
 import { Indent } from '@src/components/ui/Indent';
 import { Text } from '@src/components/ui/Text';
+import styled from 'styled-components';
 
 const SkeletonCard = styled.div`
 	background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
@@ -31,7 +31,9 @@ const CategoryCard = styled.div`
 	padding: 16px;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 	cursor: pointer;
-	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	transition:
+		transform 0.2s ease,
+		box-shadow 0.2s ease;
 
 	&:hover {
 		transform: translateY(-2px);
@@ -72,7 +74,7 @@ export const CategoriesPage: FC = () => {
 										</Flexbox>
 									</Indent>
 								</CategoryCard>
-						  ))}
+							))}
 				</Flexbox>
 			</Indent>
 		</div>

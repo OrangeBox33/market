@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Flexbox } from '../ui/Flexbox';
-import { colorMap } from '../ui/constants';
 import { Icon } from '../ui/Icon';
+import { colorMap } from '../ui/constants';
 
 export const StyledContainer = styled.div`
 	width: 100%;

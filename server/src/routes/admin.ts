@@ -1,12 +1,16 @@
 import express from 'express';
-import { requireAdmin } from '../middleware/auth';
-import { adminListOrders, adminGetOrder, adminUpdateOrderStatus } from '../controllers/adminOrdersController';
+import {
+	adminGetOrder,
+	adminListOrders,
+	adminUpdateOrderStatus,
+} from '../controllers/adminOrdersController';
 import {
 	adminCreateProduct,
-	adminUpdateProduct,
 	adminDeleteProduct,
 	adminListProducts,
+	adminUpdateProduct,
 } from '../controllers/adminProductsController';
+import { requireAdmin } from '../middleware/auth';
 
 const router = express.Router();
 

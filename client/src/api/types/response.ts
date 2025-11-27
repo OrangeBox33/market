@@ -1,4 +1,4 @@
-import { TContact, TProduct } from '@src/utils/types/product';
+import { TContact, TProduct } from '@src/common/types/product';
 
 export type TNormalizedError = {
 	message: string;

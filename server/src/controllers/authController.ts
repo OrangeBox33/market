@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { prisma } from '../prisma/prisma';
-import { compareHash, makeHash, normalizePhone } from '../utils/auth';
 import { TUser } from '../types/auth';
+import { compareHash, makeHash, normalizePhone } from '../utils/auth';
 
 const generateCodeDEV = () => String(Math.floor(100000 + Math.random() * 900000));
 

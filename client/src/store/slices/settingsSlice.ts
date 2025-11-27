@@ -1,6 +1,6 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { detectDeviceType } from '@src/utils/helpers/helpers';
-import { TDeviceType } from '@src/utils/types/settings';
+import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { detectDeviceType } from '@src/common/helpers/helpers';
+import { TDeviceType } from '@src/common/types/settings';
 
 interface SettingsState {
 	deviceType: TDeviceType;

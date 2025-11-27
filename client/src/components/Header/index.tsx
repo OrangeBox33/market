@@ -1,8 +1,8 @@
-import { colorMap } from '../ui/constants';
+import React from 'react';
 import { Flexbox } from '../ui/Flexbox';
 import { Indent } from '../ui/Indent';
 import { Text } from '../ui/Text';
-import React from 'react';
+import { colorMap } from '../ui/constants';
 
 export const Header: React.FC = () => {
 	return (
