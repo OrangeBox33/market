@@ -4,3 +4,5 @@ dist
 .DS_Store
 client/dist
 server/dist
+server/src/prisma/migrations
+server/src/prisma/generated
