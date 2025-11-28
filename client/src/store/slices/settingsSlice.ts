@@ -13,12 +13,7 @@ const initialState: SettingsState = {
 const settingsSlice = createSlice({
 	name: 'settings',
 	initialState,
-	selectors: {
-		selectDevice: state => ({
-			deviceType: state.deviceType,
-			isMobile: state.deviceType === 'mobile',
-		}),
-	},
+	selectors: {},
 	reducers: {
 		setDeviceType: (state, action: PayloadAction<TDeviceType>) => {
 			state.deviceType = action.payload;
@@ -27,5 +22,5 @@ const settingsSlice = createSlice({
 });
 
 export const { setDeviceType } = settingsSlice.actions;
-export const { selectDevice } = settingsSlice.selectors;
+export const {} = settingsSlice.selectors;
 export const settingsReducer = settingsSlice.reducer;

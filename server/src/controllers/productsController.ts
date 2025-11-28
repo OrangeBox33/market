@@ -1,16 +1,15 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { productsForSearch } from '../listeners/products-listener';
 import { prisma } from '../prisma/prisma';
-import { TAuthedRequest } from '../types/auth';
 import { parsePositiveInt } from '../utils/numbers';
 
 // Получение одного продукта по id
-export const getProductForSearch = async (req: TAuthedRequest, res: Response) => {
+export const getProductForSearch = async (req: Request, res: Response) => {
 	return res.status(200).json(productsForSearch);
 };
 
 // Получение списка продуктов с пагинацией и фильтрацией по категории
-export const listProducts = async (req: TAuthedRequest, res: Response) => {
+export const listProducts = async (req: Request, res: Response) => {
 	try {
 		const page = parsePositiveInt(req.query.page, 1);
 		const perPage = parsePositiveInt(req.query.perPage, 20, 100);
@@ -70,7 +69,7 @@ export const listProducts = async (req: TAuthedRequest, res: Response) => {
 };
 
 // Получение одного продукта по id
-export const getProductById = async (req: TAuthedRequest, res: Response) => {
+export const getProductById = async (req: Request, res: Response) => {
 	try {
 		const id = Number(req.params.id);
 		if (!Number.isFinite(id) || id <= 0) return res.status(400).json({ message: 'Invalid id' });

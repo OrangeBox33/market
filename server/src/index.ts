@@ -5,6 +5,7 @@ import path from 'path';
 import { startProductsListener } from './listeners/products-listener';
 import adminRoutes from './routes/admin';
 import authRoutes from './routes/auth';
+import cartRoutes from './routes/cart';
 import healthRoutes from './routes/health';
 import ordersRoutes from './routes/orders';
 import publicRoutes from './routes/public';
@@ -28,9 +29,10 @@ app.use(express.json());
 // Routes
 app.use('/', healthRoutes);
 app.use('/api', publicRoutes);
-app.use('/api', authRoutes);
-app.use('/api', ordersRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/orders', ordersRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/cart', cartRoutes);
 
 app.listen(3001, () => console.log('Backend running on http://localhost:3001'));
 

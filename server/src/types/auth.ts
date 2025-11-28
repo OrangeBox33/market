@@ -8,5 +8,5 @@ export interface TUser {
 	name?: string;
 }
 export interface TAuthedRequest extends Request {
-	user?: TUser;
+	user: TUser;
 }

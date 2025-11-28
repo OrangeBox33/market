@@ -1,8 +1,7 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { prisma } from '../prisma/prisma';
-import { TAuthedRequest } from '../types/auth';
 
-export const getCategories = async (_req: TAuthedRequest, res: Response) => {
+export const getCategories = async (_req: Request, res: Response) => {
 	try {
 		const categories = await prisma.category.findMany({
 			select: {

@@ -1,3 +1,4 @@
+import { TCart, TCartItem } from '@src/common/types/cart';
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { TCategory, TOrder, TProduct, TProductForSearch } from '../common/types/product';
 import { TPaginationRequest } from './types/request';
@@ -56,6 +57,9 @@ class ApiService {
 	put = async <T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> => {
 		return this.client.put(url, data, config);
 	};
+	patch = async <T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> => {
+		return this.client.patch(url, data, config);
+	};
 	delete = async <T>(url: string, config?: AxiosRequestConfig): Promise<T> => {
 		return this.client.delete(url, config);
 	};
@@ -78,6 +82,27 @@ class ApiService {
 
 	getProductsForSearch = () => {
 		return this.get<TProductForSearch[]>('/products-for-search');
+	};
+
+	// ========== Cart ==========
+	getCart = () => {
+		return this.get<TCart>('/cart');
+	};
+
+	addItemsToCart = (items: TCartItem[]) => {
+		return this.post('/cart/addItems', { items });
+	};
+
+	decreaseItemQuantity = (productId: number) => {
+		return this.patch('/cart/decreaseItem', { productId });
+	};
+
+	removeItemFromCart = (productId: number) => {
+		return this.delete('/cart/removeItem', { data: { productId } });
+	};
+
+	clearCart = () => {
+		return this.delete('/cart/clear');
 	};
 
 	// ========== Auth ==========

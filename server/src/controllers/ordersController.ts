@@ -5,8 +5,6 @@ import { TContact } from '../types/types';
 
 export const createOrder = async (req: TAuthedRequest, res: Response) => {
 	try {
-		if (!req.user) return res.status(401).json({ message: 'Unauthorized' });
-
 		const { items, contactInfo, deliveryMethod } = req.body || {};
 		if (!Array.isArray(items) || items.length === 0)
 			return res.status(400).json({ message: 'Items required' });
@@ -102,8 +100,6 @@ export const createOrder = async (req: TAuthedRequest, res: Response) => {
 // 📜 Получение списка заказов
 export const listOrders = async (req: TAuthedRequest, res: Response) => {
 	try {
-		if (!req.user) return res.status(401).json({ message: 'Unauthorized' });
-
 		const orders = await prisma.order.findMany({
 			where: { userId: req.user.id },
 			orderBy: { id: 'desc' },
@@ -127,8 +123,6 @@ export const listOrders = async (req: TAuthedRequest, res: Response) => {
 // 🔍 Получение одного заказа
 export const getOrderById = async (req: TAuthedRequest, res: Response) => {
 	try {
-		if (!req.user) return res.status(401).json({ message: 'Unauthorized' });
-
 		const id = Number(req.params.id);
 		if (!Number.isFinite(id) || id <= 0) return res.status(400).json({ message: 'Invalid id' });
 
