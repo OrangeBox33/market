@@ -1,11 +1,10 @@
 import { TProduct } from './product';
 
-export type TCartItem = {
-	productId: number;
-	quantity: number;
+export type TCartItem = TProduct & {
+	qty: number;
 };
 
 export type TCart = {
 	userId: number;
-	items: TProduct[];
+	items: TCartItem[];
 };

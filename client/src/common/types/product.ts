@@ -37,7 +37,3 @@ export type TOrder = {
 	contact?: TContact;
 	items: TOrderItem[];
 };
-
-export type CartItem = TProduct & {
-	qty: number;
-};

@@ -3,18 +3,16 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { api } from './api/client';
 import { Layout } from './components/Layout/Layout';
 import { initSearchEngine } from './engine/searchEngine';
-import { AuthPage } from './pages/AuthPage/AuthPage';
-import { CartPage } from './pages/CartPage/CartPage';
+import { AuthPage } from './pages/AuthPage';
 import { CategoriesPage } from './pages/CategoriesPage';
-import { HomePage } from './pages/HomePage/HomePage';
-import { ProductPage } from './pages/ProductPage/ProductPage';
-import { ProfilePage } from './pages/ProfilePage/ProfilePage';
-import { useAppDispatch } from './store/hooks';
-import { setProductsForSearch } from './store/slices/productSlice';
+import { HomePage } from './pages/HomePage';
+import { ProductPage } from './pages/ProductPage';
 import { setUser } from './store/slices/userSlice';
+import { useAppDispatch } from './store/store';
 
 export const App: React.FC = () => {
 	const dispatch = useAppDispatch();
+
 	useEffect(() => {
 		console.log('render');
 	});
@@ -49,10 +47,10 @@ export const App: React.FC = () => {
 					<Route path="/" element={<HomePage />} />
 					<Route path="/categories/" element={<CategoriesPage />} />
 					{/* <Route path="/category/:slug" element={<CategoryPage />} /> */}
-					{/* <Route path="/product/:id" element={<ProductPage />} />
-					<Route path="/cart" element={<CartPage />} />
-					<Route path="/auth" element={<AuthPage />} />
-					<Route path="/profile" element={<ProfilePage />} /> */}
+					<Route path="/product/:id" element={<ProductPage />} />
+					{/* <Route path="/cart" element={<CartPage />} /> */}
+					{/* <Route path="/auth" element={<AuthPage />} /> */}
+					{/* <Route path="/profile" element={<ProfilePage />} /> */}
 					{/* Admin */}
 					{/* <Route path="/admin" element={<AdminRoute />}>
 						<Route index element={<Navigate to="products" replace />} />

@@ -1,153 +1,118 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import { useProduct } from '@src/store/hooks/useProduct';
 import { Flexbox } from '../ui/Flexbox';
 import { Image } from '../ui/Image';
 import { Indent } from '../ui/Indent';
 import { Text } from '../ui/Text';
-
-type TProduct = {
-	id: number;
-	name: string;
-	description: string;
-	price: number;
-	stock: number;
-	images: string[];
-	categoryId: number;
-};
+import {
+	StyledArrowButton,
+	StyledCarouselContainer,
+	StyledCarouselWrapper,
+	StyledIndicator,
+	StyledIndicators,
+} from './styled';
 
 type TProductProps = {
-	product: TProduct;
+	productId: number;
 };
 
-// Styled компоненты для карусели
-const CarouselContainer = styled.div`
-	position: relative;
-	width: 100%;
-`;
-
-const CarouselWrapper = styled.div`
-	position: relative;
-	overflow: hidden;
-	border-radius: 8px;
-`;
-
-const Indicators = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	gap: 8px;
-	margin-top: 12px;
-`;
-
-const Indicator = styled.button<{ isActive: boolean }>`
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	border: none;
-	background-color: ${props => props.isActive ? '#6f5e4f' : '#d4d4d4'};
-	cursor: pointer;
-	transition: background-color 0.2s ease;
-
-	&:hover {
-		background-color: ${props => props.isActive ? '#6f5e4f' : '#b4b4b4'};
-	}
-`;
-
-const ArrowButton = styled.button<{ direction: 'left' | 'right' }>`
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
-	${props => props.direction === 'left' ? 'left: 12px;' : 'right: 12px;'}
-	background-color: rgba(255, 255, 255, 0.8);
-	border: none;
-	border-radius: 50%;
-	width: 36px;
-	height: 36px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	cursor: pointer;
-	z-index: 2;
-	transition: background-color 0.2s ease;
-
-	&:hover {
-		background-color: rgba(255, 255, 255, 0.9);
-	}
-
-	&:disabled {
-		opacity: 0.3;
-		cursor: not-allowed;
-	}
-`;
-
-export const Product: React.FC<TProductProps> = ({ product }) => {
+export const Product: React.FC<TProductProps> = ({ productId }) => {
+	const { product, isLoading, error } = useProduct(productId);
 	const [currentImageIndex, setCurrentImageIndex] = useState(0);
-	const images = product.images.length > 0 ? product.images : ['/placeholder-image.jpg'];
+
+	const images = product?.images.length ? product.images : ['/placeholder-image.jpg'];
 
 	const handlePrevImage = () => {
-		setCurrentImageIndex((prev) =>
-			prev === 0 ? images.length - 1 : prev - 1
-		);
+		setCurrentImageIndex(prev => (prev === 0 ? images.length - 1 : prev - 1));
 	};
 
 	const handleNextImage = () => {
-		setCurrentImageIndex((prev) =>
-			prev === images.length - 1 ? 0 : prev + 1
-		);
+		setCurrentImageIndex(prev => (prev === images.length - 1 ? 0 : prev + 1));
 	};
 
 	const handleIndicatorClick = (index: number) => {
 		setCurrentImageIndex(index);
 	};
 
+	if (isLoading) {
+		return (
+			<Indent p={16} borderRadius={8} maxWidth={400}>
+				<Flexbox direction="column" gap="16px" alignItems="center">
+					<Text tag="p" size="16px" color="secondary">
+						Загрузка...
+					</Text>
+				</Flexbox>
+			</Indent>
+		);
+	}
+
+	if (error) {
+		return (
+			<Indent p={16} borderRadius={8} maxWidth={400}>
+				<Flexbox direction="column" gap="16px" alignItems="center">
+					<Text tag="p" size="16px" color="secondary">
+						Ошибка: {error}
+					</Text>
+				</Flexbox>
+			</Indent>
+		);
+	}
+
+	if (!product) {
+		return (
+			<Indent p={16} borderRadius={8} maxWidth={400}>
+				<Flexbox direction="column" gap="16px" alignItems="center">
+					<Text tag="p" size="16px" color="secondary">
+						Товар не найден
+					</Text>
+				</Flexbox>
+			</Indent>
+		);
+	}
+
 	return (
 		<Indent p={16} borderRadius={8} maxWidth={400}>
 			<Flexbox direction="column" gap="16px">
 				{/* Карусель изображений */}
-				<CarouselContainer>
-					<CarouselWrapper>
-						<Image
-							src={images[currentImageIndex]}
-							width="100%"
-							height={300}
-							alt={product.name}
-						/>
+				<StyledCarouselContainer>
+					<StyledCarouselWrapper>
+						<Image src={images[currentImageIndex]} width="100%" height={300} alt={product.name} />
 
 						{/* Кнопки навигации */}
 						{images.length > 1 && (
 							<>
-								<ArrowButton
+								<StyledArrowButton
 									direction="left"
 									onClick={handlePrevImage}
 									aria-label="Предыдущее изображение"
 								>
 									‹
-								</ArrowButton>
-								<ArrowButton
+								</StyledArrowButton>
+								<StyledArrowButton
 									direction="right"
 									onClick={handleNextImage}
 									aria-label="Следующее изображение"
 								>
 									›
-								</ArrowButton>
+								</StyledArrowButton>
 							</>
 						)}
-					</CarouselWrapper>
+					</StyledCarouselWrapper>
 
 					{/* Индикаторы */}
 					{images.length > 1 && (
-						<Indicators>
+						<StyledIndicators>
 							{images.map((_, index) => (
-								<Indicator
+								<StyledIndicator
 									key={index}
 									isActive={index === currentImageIndex}
 									onClick={() => handleIndicatorClick(index)}
 									aria-label={`Изображение ${index + 1} из ${images.length}`}
 								/>
 							))}
-						</Indicators>
+						</StyledIndicators>
 					)}
-				</CarouselContainer>
+				</StyledCarouselContainer>
 
 				{/* Информация о товаре */}
 				<Flexbox direction="column" gap="8px">

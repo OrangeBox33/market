@@ -4,7 +4,7 @@ import { TAuthedRequest } from './../types/auth';
 
 type TCartItem = {
 	productId: number;
-	quantity: number;
+	qty: number;
 };
 
 export const getCart = async (req: TAuthedRequest, res: Response) => {
@@ -37,7 +37,7 @@ export const getCart = async (req: TAuthedRequest, res: Response) => {
 export const addItemsToCart = async (req: TAuthedRequest, res: Response) => {
 	const { items }: { items: TCartItem[] } = req.body;
 
-	// items: [{ productId, quantity }, ...]
+	// items: [{ productId, qty }, ...]
 	if (!Array.isArray(items)) {
 		return res.status(400).json({ message: 'Items must be an array' });
 	}
@@ -66,17 +66,103 @@ export const addItemsToCart = async (req: TAuthedRequest, res: Response) => {
 					},
 				},
 				update: {
-					quantity: { increment: item.quantity },
+					qty: { increment: item.qty },
 				},
 				create: {
 					cartId: cart.id,
 					productId: item.productId,
-					quantity: item.quantity,
+					qty: item.qty,
 				},
 			});
 		}
 
-		return res.status(200).json({ message: 'Cart updated' });
+		// 3. Возвращаем обновленную корзину
+		const updatedCart = await prisma.cart.findUnique({
+			where: { userId },
+			include: {
+				items: {
+					include: {
+						product: true,
+					},
+				},
+			},
+		});
+
+		return res.status(200).json(updatedCart || { items: [] });
+	} catch (err) {
+		console.error(err);
+		return res.status(500).json({ message: 'Server error' });
+	}
+};
+
+export const increaseItemQuantity = async (req: TAuthedRequest, res: Response) => {
+	const { productId } = req.body;
+
+	if (!productId) {
+		return res.status(400).json({ message: 'productId is required' });
+	}
+
+	try {
+		const userId = req.user.id;
+
+		// Находим корзину (или создаём, если нет)
+		let cart = await prisma.cart.findUnique({
+			where: { userId },
+		});
+
+		if (!cart) {
+			cart = await prisma.cart.create({
+				data: { userId },
+			});
+		}
+
+		// Пытаемся найти item
+		let item = await prisma.cartItem.findUnique({
+			where: {
+				cartId_productId: {
+					cartId: cart.id,
+					productId,
+				},
+			},
+		});
+
+		if (!item) {
+			// Если товара ещё нет → создаём с qty = 1
+			item = await prisma.cartItem.create({
+				data: {
+					cartId: cart.id,
+					productId,
+					qty: 1,
+				},
+			});
+		} else {
+			// Если есть → увеличиваем qty
+			await prisma.cartItem.update({
+				where: {
+					cartId_productId: {
+						cartId: cart.id,
+						productId,
+					},
+				},
+				data: {
+					qty: { increment: 1 },
+				},
+			});
+		}
+
+		// Возвращаем обновлённую корзину
+		const updatedCart = await prisma.cart.findUnique({
+			where: { userId },
+			include: {
+				items: {
+					include: {
+						product: true,
+					},
+				},
+			},
+		});
+
+		return res.status(200).json(updatedCart);
 	} catch (err) {
 		console.error(err);
 		return res.status(500).json({ message: 'Server error' });
@@ -116,7 +202,7 @@ export const decreaseItemQuantity = async (req: TAuthedRequest, res: Response) =
 			return res.status(400).json({ message: 'Item not found in cart' });
 		}
 
-		if (item.quantity > 1) {
+		if (item.qty > 1) {
 			// Просто уменьшаем количество
 			await prisma.cartItem.update({
 				where: {
@@ -126,11 +212,11 @@ export const decreaseItemQuantity = async (req: TAuthedRequest, res: Response) =
 					},
 				},
 				data: {
-					quantity: { decrement: 1 },
+					qty: { decrement: 1 },
 				},
 			});
 		} else {
-			// quantity == 1 → удалить товар из корзины
+			// qty == 1 → удалить товар из корзины
 			await prisma.cartItem.delete({
 				where: {
 					cartId_productId: {
@@ -150,7 +236,19 @@ export const decreaseItemQuantity = async (req: TAuthedRequest, res: Response) =
 			}
 		}
 
-		return res.status(200).json({ message: 'Quantity updated' });
+		// Возвращаем обновленную корзину
+		const updatedCart = await prisma.cart.findUnique({
+			where: { userId },
+			include: {
+				items: {
+					include: {
+						product: true,
+					},
+				},
+			},
+		});
+
+		return res.status(200).json(updatedCart || { items: [] });
 	} catch (err) {
 		console.error(err);
 		return res.status(500).json({ message: 'Server error' });
@@ -177,7 +275,7 @@ export const removeItemFromCart = async (req: TAuthedRequest, res: Response) => 
 		}
 
 		// Удаляем CartItem с указанным productId
-		const deletedItem = await prisma.cartItem.delete({
+		await prisma.cartItem.delete({
 			where: {
 				cartId_productId: {
 					cartId: cart.id,
@@ -186,7 +284,28 @@ export const removeItemFromCart = async (req: TAuthedRequest, res: Response) => 
 			},
 		});
 
-		return res.status(200).json({ message: 'Item removed from cart', deletedItem });
+		// Проверяем, остались ли ещё CartItem
+		const remainingItems = await prisma.cartItem.count({
+			where: { cartId: cart.id },
+		});
+		if (remainingItems === 0) {
+			// Корзина пуста → удаляем её
+			await prisma.cart.delete({ where: { id: cart.id } });
+		}
+
+		// Возвращаем обновленную корзину
+		const updatedCart = await prisma.cart.findUnique({
+			where: { userId },
+			include: {
+				items: {
+					include: {
+						product: true,
+					},
+				},
+			},
+		});
+
+		return res.status(200).json(updatedCart || { items: [] });
 	} catch (err: any) {
 		// Если элемента не было в корзине, Prisma выбросит ошибку — можно её поймать
 		if (err.code === 'P2025') {
@@ -197,15 +316,15 @@ export const removeItemFromCart = async (req: TAuthedRequest, res: Response) => 
 	}
 };
 
-export const clearCart = async (req: TAuthedRequest, res: Response) => {
+export const clearLocalCart = async (req: TAuthedRequest, res: Response) => {
 	try {
 		await prisma.cart.delete({
 			where: { userId: req.user.id },
 		});
 
-		return res.status(200).json({ message: 'Cart cleared' });
+		return res.status(200).json({ items: [] });
 	} catch (err) {
-		// Если корзины не существовало — просто возвращаем успех
-		return res.status(200).json({ message: 'Cart cleared' });
+		// Если корзины не существовало — просто возвращаем пустую корзину
+		return res.status(200).json({ items: [] });
 	}
 };

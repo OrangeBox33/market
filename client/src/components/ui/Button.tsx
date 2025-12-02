@@ -8,6 +8,7 @@ type ButtonProps = {
 	title?: string | ReactNode;
 	withIcon?: boolean;
 	theme?: 'primary' | 'secondary' | 'tertiary';
+	onClick?: () => void;
 };
 
 // Цвета для разных тем
@@ -75,9 +76,9 @@ const Icon = styled.span`
 	transform: translateY(-50%);
 `;
 
-export const Button: React.FC<ButtonProps> = ({ title, withIcon = false, theme = 'black' }) => {
+export const Button: React.FC<ButtonProps> = ({ title, withIcon = false, theme = 'primary', onClick }) => {
 	return (
-		<ButtonBase theme={theme}>
+		<ButtonBase theme={theme} onClick={onClick}>
 			{title}
 			{withIcon && <img src={arrowRight} />}
 		</ButtonBase>

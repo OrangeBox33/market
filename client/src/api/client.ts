@@ -90,19 +90,23 @@ class ApiService {
 	};
 
 	addItemsToCart = (items: TCartItem[]) => {
-		return this.post('/cart/addItems', { items });
+		return this.post<TCart>('/cart/addItems', { items });
+	};
+
+	increaseItemQuantity = (productId: number) => {
+		return this.patch<TCart>('/cart/increaseItem', { productId });
 	};
 
 	decreaseItemQuantity = (productId: number) => {
-		return this.patch('/cart/decreaseItem', { productId });
+		return this.patch<TCart>('/cart/decreaseItem', { productId });
 	};
 
 	removeItemFromCart = (productId: number) => {
-		return this.delete('/cart/removeItem', { data: { productId } });
+		return this.delete<TCart>('/cart/removeItem', { data: { productId } });
 	};
 
-	clearCart = () => {
-		return this.delete('/cart/clear');
+	clearLocalCart = () => {
+		return this.delete<TCart>('/cart/clear');
 	};
 
 	// ========== Auth ==========
