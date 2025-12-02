@@ -1,5 +1,5 @@
 import { type PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { TUserResponse } from '@src/api/types/response';
+import { TUserResponse } from '@src/common/types/response';
 import { TUser } from '../../common/types/user';
 import { verifyOtp } from '../thunk/user';
 

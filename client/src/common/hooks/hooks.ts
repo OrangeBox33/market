@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { TNormalizedError } from '@src/api/types/response';
+import { TNormalizedError } from '@src/common/types/response';
 
 export const useLoading = <TData>(loader: () => Promise<TData>) => {
 	const [data, setData] = useState<TData | null>(null);

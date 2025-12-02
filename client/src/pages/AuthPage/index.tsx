@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@src/store/store';
 import styled from 'styled-components';
 import { api } from '../../api/client';
-import { TNormalizedError } from '../../api/types/response';
+import { TNormalizedError } from '../../common/types/response';
 import { selectUser, setUser } from '../../store/slices/userSlice';
 
 const Container = styled.div`

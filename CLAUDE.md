@@ -65,8 +65,9 @@ client/
 **Feature Components** (`src/components/[FeatureName]/`):
 
 - Feature-specific components with styled.ts pattern
-- Index.tsx as main component file
-- Styled components separated into dedicated file
+- index.tsx as main component file
+- Styled components separated into dedicated file (styled.ts)
+- Styled components must be named with "Styled" prefix (e.g., StyledItemContainer)
 
 **Pages** (`src/pages/[PageName]/`):
 
@@ -79,6 +80,7 @@ client/
 - Redux Toolkit with slices pattern
 - Slices: cart, popup, product, settings, user
 - Centralized store configuration in store.ts
+- Always import `useAppSelector` and `useAppDispatch` from `@client/src/store/store.ts` for Redux state access
 
 ## React Components - Base UI Library
 
