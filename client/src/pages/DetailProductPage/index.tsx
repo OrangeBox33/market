@@ -1,14 +1,14 @@
 import { FC } from 'react';
 import { useParams } from 'react-router-dom';
-import { Product } from '@src/components/Product';
+import { DetailProduct } from '@src/components/DetailProduct';
 
-export const ProductPage: FC = () => {
+export const DetailProductPage: FC = () => {
 	const { id } = useParams<{ id: string }>();
 	const productId = id ? Number(id) : 0;
 
 	return (
 		<div>
-			<Product productId={productId} />
+			<DetailProduct productId={productId} />
 		</div>
 	);
 };

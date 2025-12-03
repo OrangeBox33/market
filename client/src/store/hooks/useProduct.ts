@@ -1,19 +1,19 @@
 import { useEffect } from 'react';
+import { fetchProduct } from '@src/store/thunk/detailProduct';
 import {
-	clearCurrentProduct,
-	selectCurrentProduct,
-	selectProductError,
-	selectProductLoading,
-} from '@src/store/slices/productSlice';
-import { fetchProduct } from '@src/store/thunk/product';
+	clearDetailProduct,
+	selectDetailProduct,
+	selectDetailProductError,
+	selectDetailProductLoading,
+} from '../slices/detailProductSlice';
 import { useAppDispatch, useAppSelector } from '../store';
 
 export const useProduct = (productId: number | undefined) => {
 	const dispatch = useAppDispatch();
 
-	const product = useAppSelector(selectCurrentProduct);
-	const isLoading = useAppSelector(selectProductLoading);
-	const error = useAppSelector(selectProductError);
+	const product = useAppSelector(selectDetailProduct);
+	const isLoading = useAppSelector(selectDetailProductLoading);
+	const error = useAppSelector(selectDetailProductError);
 
 	useEffect(() => {
 		if (productId) {
@@ -21,7 +21,7 @@ export const useProduct = (productId: number | undefined) => {
 		}
 
 		return () => {
-			dispatch(clearCurrentProduct());
+			dispatch(clearDetailProduct());
 		};
 	}, [dispatch, productId]);
 

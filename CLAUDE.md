@@ -82,6 +82,10 @@ client/
 - Centralized store configuration in store.ts
 - Always import `useAppSelector` and `useAppDispatch` from `@client/src/store/store.ts` for Redux state access
 
+## TypeScript Types
+
+All TypeScript types should be created using the `type` keyword with a `T` prefix. Example: `type TProductItem = {}`
+
 ## React Components - Base UI Library
 
 When creating React components, always use these base components instead of raw HTML elements:

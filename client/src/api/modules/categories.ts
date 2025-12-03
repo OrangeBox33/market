@@ -5,11 +5,4 @@ export class CategoriesApi extends BaseApiClient {
 	getCategories = () => {
 		return this.get<TCategory[]>('/categories');
 	};
-
-	getCategoryProducts = (categoryId: number) => {
-		return this.get<{
-			category: TCategory;
-			products: any[];
-		}>(`/category/${categoryId}`);
-	};
 }

@@ -16,10 +16,10 @@ type TProductProps = {
 	productId: number;
 };
 
-export const Product: React.FC<TProductProps> = ({ productId }) => {
+export const DetailProduct: React.FC<TProductProps> = ({ productId }) => {
 	const { product, isLoading, error } = useProduct(productId);
 	const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
+	console.log(product);
 	const images = product?.images.length ? product.images : ['/placeholder-image.jpg'];
 
 	const handlePrevImage = () => {

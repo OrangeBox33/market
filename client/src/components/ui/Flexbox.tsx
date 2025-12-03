@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, CSSProperties } from 'react';
 import styled from 'styled-components';
 
 type FlexboxProps = {
@@ -16,6 +16,7 @@ type FlexboxProps = {
 	isWrap?: boolean;
 	isFullHeight?: boolean;
 	className?: string;
+	style?: CSSProperties;
 };
 
 const StyledFlexbox = styled.div<FlexboxProps>`
@@ -37,6 +38,7 @@ export const Flexbox: React.FC<FlexboxProps> = ({
 	isWrap,
 	isFullHeight,
 	className,
+	style,
 }) => {
 	return (
 		<StyledFlexbox
@@ -47,6 +49,7 @@ export const Flexbox: React.FC<FlexboxProps> = ({
 			isWrap={isWrap}
 			isFullHeight={isFullHeight}
 			className={className}
+			style={style}
 		>
 			{children}
 		</StyledFlexbox>

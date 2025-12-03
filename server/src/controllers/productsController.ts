@@ -16,18 +16,19 @@ export const listProducts = async (req: Request, res: Response) => {
 
 		const where: any = {};
 
-		// фильтр по категории: по id или slug
-		const category = req.query.category;
-		if (typeof category === 'string') {
-			if (/^\d+$/.test(category)) {
-				where.categoryId = Number(category);
+		// фильтр по категории из параметров запроса
+		const categorySlug = req.query.categorySlug;
+		if (typeof categorySlug === 'string') {
+			// фильтрация по slug категории
+			const category = await prisma.category.findUnique({
+				where: { slug: categorySlug },
+				select: { id: true },
+			});
+
+			if (category) {
+				where.categoryId = category.id;
 			} else {
-				const cat = await prisma.category.findUnique({
-					where: { slug: category },
-					select: { id: true },
-				});
-				if (!cat) return res.status(400).json({ message: 'Unknown category' });
-				where.categoryId = cat.id;
+				return res.status(404).json({ message: 'Category not found' });
 			}
 		}
 

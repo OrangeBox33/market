@@ -1,36 +1,36 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TProduct, TProductForSearch } from '@src/common/types/product';
-import { fetchProduct } from '../thunk/product';
+import { fetchProduct } from '../thunk/detailProduct';
 
 interface ProductState {
 	productsForSearch: TProductForSearch[];
-	currentProduct: TProduct | null;
+	detailProduct: TProduct | null;
 	isLoading: boolean;
 	error: string | null;
 }
 
 const initialState: ProductState = {
 	productsForSearch: [],
-	currentProduct: null,
+	detailProduct: null,
 	isLoading: false,
 	error: null,
 };
 
-export const productSlice = createSlice({
-	name: 'product',
+const detailProductSlice = createSlice({
+	name: 'detailProduct',
 	initialState,
 	selectors: {
 		selectProductsForSearch: state => state.productsForSearch,
-		selectCurrentProduct: state => state.currentProduct,
-		selectProductLoading: state => state.isLoading,
-		selectProductError: state => state.error,
+		selectDetailProduct: state => state.detailProduct,
+		selectDetailProductLoading: state => state.isLoading,
+		selectDetailProductError: state => state.error,
 	},
 	reducers: {
 		setProductsForSearch: (state, action: PayloadAction<TProductForSearch[]>) => {
 			state.productsForSearch = action.payload;
 		},
-		clearCurrentProduct: state => {
-			state.currentProduct = null;
+		clearDetailProduct: state => {
+			state.detailProduct = null;
 			state.error = null;
 		},
 	},
@@ -42,22 +42,22 @@ export const productSlice = createSlice({
 			})
 			.addCase(fetchProduct.fulfilled, (state, action) => {
 				state.isLoading = false;
-				state.currentProduct = action.payload;
+				state.detailProduct = action.payload;
 				state.error = null;
 			})
 			.addCase(fetchProduct.rejected, (state, action) => {
 				state.isLoading = false;
 				state.error = action.payload as string;
-				state.currentProduct = null;
+				state.detailProduct = null;
 			});
 	},
 });
 
 export const {
 	selectProductsForSearch,
-	selectCurrentProduct,
-	selectProductLoading,
-	selectProductError,
-} = productSlice.selectors;
-export const { setProductsForSearch, clearCurrentProduct } = productSlice.actions;
-export const productReducer = productSlice.reducer;
+	selectDetailProduct,
+	selectDetailProductLoading,
+	selectDetailProductError,
+} = detailProductSlice.selectors;
+export const { setProductsForSearch, clearDetailProduct } = detailProductSlice.actions;
+export const detailProductReducer = detailProductSlice.reducer;

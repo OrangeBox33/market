@@ -1,4 +1,4 @@
-import { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import { TNormalizedError } from '../common/types/response';
 
 export class BaseApiClient {
@@ -10,7 +10,7 @@ export class BaseApiClient {
 	}
 
 	protected createAxiosInstance(): AxiosInstance {
-		return require('axios').create({
+		return axios.create({
 			baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3500/api',
 			withCredentials: true,
 		});

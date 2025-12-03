@@ -1,16 +1,21 @@
-import { BaseApiClient } from '../base-client';
+import { TPaginationRequest } from '@src/common/types/request';
+import { TProductsResponse } from '@src/common/types/response';
 import { TProduct, TProductForSearch } from '../../common/types/product';
-import { TProductsResponse, TPaginationRequest } from '../types';
+import { BaseApiClient } from '../base-client';
 
 export class ProductsApi extends BaseApiClient {
-	getProducts = ({ page, perPage, category }: TPaginationRequest & { category?: string }) => {
+	getProducts = ({
+		page,
+		perPage,
+		categorySlug,
+	}: TPaginationRequest & { categorySlug?: string }) => {
 		return this.get<TProductsResponse>('/products', {
-			params: { page, perPage, category },
+			params: { page, perPage, categorySlug },
 		});
 	};
 
 	getProduct = (id: number) => {
-		return this.get<TProduct>(`/products/${id}`);
+		return this.get<TProduct>(`/product/${id}`);
 	};
 
 	getProductsForSearch = () => {
