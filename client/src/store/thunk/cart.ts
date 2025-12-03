@@ -15,17 +15,6 @@ export const fetchCart = createAsyncThunk<TCart, void, { state: RootState }>(
 	}
 );
 
-export const addItemsToCart = createAsyncThunk<TCart, { items: TCartItem[] }, { state: RootState }>(
-	'cart/addItemsToCart',
-	async ({ items }, { rejectWithValue }) => {
-		try {
-			const response = await api.addItemsToCart(items);
-			return response;
-		} catch (error: any) {
-			return rejectWithValue(error.message || 'Failed to add items to cart');
-		}
-	}
-);
 
 export const increaseItemQuantity = createAsyncThunk<
 	TCart,

@@ -25,7 +25,6 @@ export const api = {
 
 	// Cart
 	getCart: cartApi.getCart,
-	addItemsToCart: cartApi.addItemsToCart,
 	increaseItemQuantity: cartApi.increaseItemQuantity,
 	decreaseItemQuantity: cartApi.decreaseItemQuantity,
 	removeItemFromCart: cartApi.removeItemFromCart,

@@ -16,12 +16,14 @@ const userSlice = createSlice({
 	selectors: { selectUser: state => state },
 	reducers: {
 		setUser: (state, action: PayloadAction<TUserResponse>) => {
-			const { id, name, phone, role } = action.payload;
-			state.id = id;
-			state.name = name;
-			state.phone = phone;
-			state.role = role;
-			state.isAuth = true;
+			if (action.payload) {
+				const { id, name, phone, role } = action.payload;
+				state.id = id;
+				state.name = name;
+				state.phone = phone;
+				state.role = role;
+				state.isAuth = true;
+			}
 		},
 		logout: state => {
 			state.id = undefined;
@@ -36,14 +38,16 @@ const userSlice = createSlice({
 			.addCase(verifyOtp.pending, state => {
 				state.isLoading = true;
 			})
-			.addCase(verifyOtp.fulfilled, (state, action: PayloadAction<TUserResponse>) => {
-				const { id, name, phone, role } = action.payload;
+			.addCase(verifyOtp.fulfilled, (state, action: PayloadAction<TUserResponse | null>) => {
+				if (action.payload) {
+					const { id, name, phone, role } = action.payload;
+					state.id = id;
+					state.name = name;
+					state.phone = phone;
+					state.role = role;
+					state.isAuth = true;
+				}
 				state.isLoading = false;
-				state.id = id;
-				state.name = name;
-				state.phone = phone;
-				state.role = role;
-				state.isAuth = true;
 			})
 			.addCase(verifyOtp.rejected, state => {
 				state.isLoading = false;

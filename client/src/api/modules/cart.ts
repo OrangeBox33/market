@@ -6,10 +6,6 @@ export class CartApi extends BaseApiClient {
 		return this.get<TCart>('/cart');
 	};
 
-	addItemsToCart = (items: TCartItem[]) => {
-		return this.post<TCart>('/cart/addItems', { items });
-	};
-
 	increaseItemQuantity = (productId: number) => {
 		return this.patch<TCart>('/cart/increaseItem', { productId });
 	};

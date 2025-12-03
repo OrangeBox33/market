@@ -1,8 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button } from '@src/components/ui/Button';
-import { Flexbox } from '@src/components/ui/Flexbox';
-import { Indent } from '@src/components/ui/Indent';
-import { Text } from '@src/components/ui/Text';
+import { Button, Flexbox, Indent, Text } from '@src/components/ui';
 import {
 	clearCart,
 	selectCart,
@@ -83,7 +80,7 @@ export const Cart: React.FC = () => {
 				</Text>
 			</StyledCartHeader>
 
-			{cartItems.length === 0 ? (
+			{Object.keys(cartItems).length === 0 ? (
 				<StyledEmptyCart>
 					<Text size="18px" color="secondary" textAlign="center">
 						Your cart is empty
@@ -98,7 +95,7 @@ export const Cart: React.FC = () => {
 				<>
 					<StyledCartItemsContainer>
 						<Flexbox direction="column" gap="16px">
-							{cartItems.map(item => (
+							{Object.values(cartItems).map(item => (
 								<CartItem key={item.id} item={item} />
 							))}
 						</Flexbox>

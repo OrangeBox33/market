@@ -1,3 +1,4 @@
+export { Button } from './Button';
 export { Flexbox } from './Flexbox';
 export { Grid } from './Grid';
 export { Icon } from './Icon';

@@ -1,9 +1,8 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '@src/context';
 import { logout, selectUser } from '../../store/slices/userSlice';
-import { type RootState, useAppSelector } from '../../store/store';
+import { useAppDispatch, useAppSelector } from '../../store/store';
 import { Header } from '../Header';
 import { MobileMenu } from '../MobileMenu';
 import { StyledLayout } from './styled';
@@ -15,16 +14,13 @@ interface LayoutProps {
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
 	const { isMobile } = useAppContext();
 	const { isAuth, phone, name } = useAppSelector(selectUser);
-	const cartItems = useSelector((state: RootState) => state.cart.items);
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
 	const handleLogout = () => {
 		dispatch(logout());
 		navigate('/');
 	};
-
-	const cartItemsCount = cartItems.reduce((sum, item) => sum + item.qty, 0);
 
 	return (
 		<StyledLayout>

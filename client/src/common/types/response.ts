@@ -20,6 +20,11 @@ export type TUserResponse = {
 	name?: string;
 };
 
+export type TAuthResponse = {
+	user: TUserResponse | null;
+	message?: string;
+};
+
 export type TSendOtpResponse = { code: string; phone: string };
 
 export type TProductsResponse = TPaginationResponse & { items: TProduct[] };

@@ -1,4 +1,4 @@
-import { TSendOtpResponse, TUserResponse } from '../../common/types/response';
+import { TAuthResponse, TSendOtpResponse } from '../../common/types/response';
 import { BaseApiClient } from '../base-client';
 
 export class AuthApi extends BaseApiClient {
@@ -7,11 +7,11 @@ export class AuthApi extends BaseApiClient {
 	};
 
 	verifyOtp = (data: { phone: string; code: string }) => {
-		return this.post<TUserResponse>('/auth/verify-otp', data);
+		return this.post<TAuthResponse>('/auth/verify-otp', data);
 	};
 
 	auth = () => {
-		return this.get<TUserResponse | null>('/auth');
+		return this.get<TAuthResponse>('/auth');
 	};
 
 	logout = () => {

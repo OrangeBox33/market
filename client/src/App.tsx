@@ -21,9 +21,9 @@ export const App: React.FC = () => {
 	useEffect(() => {
 		api
 			.auth()
-			.then(user => {
-				if (user) {
-					dispatch(setUser(user));
+			.then(data => {
+				if (data?.user) {
+					dispatch(setUser(data.user));
 				}
 			})
 			.catch(err => {
