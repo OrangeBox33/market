@@ -1,4 +1,5 @@
 import { TContact, TProduct } from '@src/common/types/product';
+import { TId } from './common';
 
 export type TNormalizedError = {
 	message: string;
@@ -13,7 +14,7 @@ export type TPaginationResponse = {
 };
 
 export type TUserResponse = {
-	id: number;
+	id: TId;
 	phone: string;
 	role: 'user' | 'admin';
 	contacts: TContact[];

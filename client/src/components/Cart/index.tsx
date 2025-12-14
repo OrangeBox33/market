@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Button, Flexbox, Indent, Text } from '@src/components/ui';
 import {
-	clearCart,
+	clearLocalCart,
 	selectCart,
 	selectCartError,
 	selectCartLoading,
 	selectCartTotals,
 } from '@src/store/slices/cartSlice';
-import { clearLocalCart, fetchCart } from '@src/store/slices/cartSlice';
 import { selectUser } from '@src/store/slices/userSlice';
 import { useAppDispatch, useAppSelector } from '@src/store/store';
 import { CartItem } from '../CartItem';
@@ -27,19 +26,8 @@ export const Cart: React.FC = () => {
 	const error = useAppSelector(selectCartError);
 	const { totalPrice, totalItems } = useAppSelector(selectCartTotals);
 
-	// Load cart from server when user is authenticated
-	useEffect(() => {
-		if (isAuth) {
-			dispatch(fetchCart());
-		}
-	}, [dispatch, isAuth]);
-
 	const handleClearCart = () => {
-		if (isAuth) {
-			dispatch(clearCart());
-		} else {
-			dispatch(clearLocalCart());
-		}
+		dispatch(clearLocalCart());
 	};
 
 	const handleCheckout = () => {
@@ -80,7 +68,7 @@ export const Cart: React.FC = () => {
 				</Text>
 			</StyledCartHeader>
 
-			{Object.keys(cartItems).length === 0 ? (
+			{cartItems.length === 0 ? (
 				<StyledEmptyCart>
 					<Text size="18px" color="secondary" textAlign="center">
 						Your cart is empty
@@ -95,7 +83,7 @@ export const Cart: React.FC = () => {
 				<>
 					<StyledCartItemsContainer>
 						<Flexbox direction="column" gap="16px">
-							{Object.values(cartItems).map(item => (
+							{cartItems.map(item => (
 								<CartItem key={item.id} item={item} />
 							))}
 						</Flexbox>

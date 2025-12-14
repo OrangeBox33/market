@@ -1,35 +1,36 @@
 import { EOrderStatus } from '../enums/enum';
+import { TId } from './common';
 
 export type TCategory = {
-	id: number;
+	id: TId;
 	name: string;
 	slug: string;
 };
 
 export type TProduct = {
-	id: number;
+	id: TId;
 	name: string;
 	description: string;
 	price: number;
 	stock: number;
 	images: string[];
-	categoryId: number;
+	categoryId: TId;
 };
 
 export type TProductForSearch = {
-	id: number;
+	id: TId;
 	name: string;
 	translit: string | null;
 };
 
-export type TOrderItem = { productId: number; name: string; price: number; qty: number };
+export type TOrderItem = { productId: TId; name: string; price: number; qty: number };
 
 export type TContact = {
 	address: string;
 };
 
 export type TOrder = {
-	id: number;
+	id: TId;
 	createdAt: Date;
 	totalPrice: number;
 	deliveryMethod: string;

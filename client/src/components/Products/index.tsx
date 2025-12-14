@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '@src/store/store';
 import { getProducts } from '@src/store/thunk/products';
 import { ProductItem } from '../ProductItem';
 import { Flexbox, Indent, Text } from '../ui';
-import { StyledPaginationButton, StyledPageNumber } from './styled';
+import { StyledPageNumber, StyledPaginationButton } from './styled';
 
 type TProductsProps = {
 	categorySlug?: string;

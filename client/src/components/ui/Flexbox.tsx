@@ -1,4 +1,4 @@
-import React, { ReactNode, CSSProperties } from 'react';
+import React, { CSSProperties, ReactNode } from 'react';
 import styled from 'styled-components';
 
 type FlexboxProps = {
@@ -17,6 +17,7 @@ type FlexboxProps = {
 	isFullHeight?: boolean;
 	className?: string;
 	style?: CSSProperties;
+	onClick?: () => void;
 };
 
 const StyledFlexbox = styled.div<FlexboxProps>`
@@ -39,6 +40,7 @@ export const Flexbox: React.FC<FlexboxProps> = ({
 	isFullHeight,
 	className,
 	style,
+	onClick,
 }) => {
 	return (
 		<StyledFlexbox
@@ -50,6 +52,7 @@ export const Flexbox: React.FC<FlexboxProps> = ({
 			isFullHeight={isFullHeight}
 			className={className}
 			style={style}
+			onClick={onClick}
 		>
 			{children}
 		</StyledFlexbox>

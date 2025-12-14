@@ -1,3 +1,4 @@
+import { TId } from './common';
 import { TProduct } from './product';
 
 export type TCartItem = TProduct & {
@@ -5,6 +6,6 @@ export type TCartItem = TProduct & {
 };
 
 export type TCart = {
-	userId: number;
+	userId: TId;
 	items: TCartItem[];
 };

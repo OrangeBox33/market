@@ -4,6 +4,7 @@ import { api } from './api/client';
 import { Layout } from './components/Layout/Layout';
 import { initSearchEngine } from './engine/searchEngine';
 import { AuthPage } from './pages/AuthPage';
+import { CartPage } from './pages/CartPage';
 import { CategoriesPage } from './pages/CategoriesPage';
 import { DetailProductPage } from './pages/DetailProductPage';
 import { HomePage } from './pages/HomePage';
@@ -40,7 +41,7 @@ export const App: React.FC = () => {
 				console.error(err);
 			});
 	}, []);
-
+	console.log('Rendered App component');
 	return (
 		<Router>
 			<Layout>
@@ -49,7 +50,7 @@ export const App: React.FC = () => {
 					<Route path="/categories/" element={<CategoriesPage />} />
 					<Route path="/category/:categorySlug?" element={<ProductsPage />} />
 					<Route path="/product/:id" element={<DetailProductPage />} />
-					{/* <Route path="/cart" element={<CartPage />} /> */}
+					<Route path="/cart" element={<CartPage />} />
 					{/* <Route path="/auth" element={<AuthPage />} /> */}
 					{/* <Route path="/profile" element={<ProfilePage />} /> */}
 					{/* Admin */}

@@ -3,18 +3,17 @@ import deleteIcon from '@src/assets/icons/delete.svg';
 import minusIcon from '@src/assets/icons/minus.svg';
 import plusIcon from '@src/assets/icons/plus.svg';
 import { TCartItem } from '@src/common/types/cart';
+import { TId } from '@src/common/types/common';
 import { Flexbox } from '@src/components/ui/Flexbox';
 import { Indent } from '@src/components/ui/Indent';
 import { Text } from '@src/components/ui/Text';
 import {
-	decreaseItemQuantity,
+	addOrIncreaseToLocalCart,
 	decreaseLocalItemQuantity,
-	increaseLocalItemQuantity,
 	removeFromLocalCart,
 } from '@src/store/slices/cartSlice';
 import { selectUser } from '@src/store/slices/userSlice';
 import { useAppDispatch, useAppSelector } from '@src/store/store';
-import { increaseItemQuantity, removeItemFromCart } from '@src/store/thunk/cart';
 import {
 	StyledCartItemContainer,
 	StyledDeleteButton,
@@ -32,28 +31,16 @@ export const CartItem: React.FC<TCartItemProps> = ({ item }) => {
 	const dispatch = useAppDispatch();
 	const { isAuth } = useAppSelector(selectUser);
 
-	const handleIncreaseQuantity = () => {
-		if (isAuth) {
-			dispatch(increaseItemQuantity({ productId: item.id }));
-		} else {
-			dispatch(increaseLocalItemQuantity(item.id));
-		}
+	const handleIncreaseQuantity = (item: TCartItem) => () => {
+		dispatch(addOrIncreaseToLocalCart(item));
 	};
 
-	const handleDecreaseQuantity = () => {
-		if (isAuth) {
-			dispatch(decreaseItemQuantity({ productId: item.id }));
-		} else {
-			dispatch(decreaseLocalItemQuantity(item.id));
-		}
+	const handleDecreaseQuantity = (id: TId) => () => {
+		dispatch(decreaseLocalItemQuantity(id));
 	};
 
-	const handleRemoveItem = () => {
-		if (isAuth) {
-			dispatch(removeItemFromCart({ productId: item.id }));
-		} else {
-			dispatch(removeFromLocalCart(item.id));
-		}
+	const handleRemoveItem = (id: TId) => () => {
+		dispatch(removeFromLocalCart(id));
 	};
 
 	return (
@@ -78,7 +65,7 @@ export const CartItem: React.FC<TCartItemProps> = ({ item }) => {
 
 			<Flexbox direction="column" alignItems="flex-end">
 				<StyledQuantityControls>
-					<StyledQuantityButton onClick={handleDecreaseQuantity} disabled={item.qty <= 1}>
+					<StyledQuantityButton onClick={handleDecreaseQuantity(item.id)}>
 						<img src={minusIcon} alt="Decrease" width="16" height="16" />
 					</StyledQuantityButton>
 
@@ -86,14 +73,14 @@ export const CartItem: React.FC<TCartItemProps> = ({ item }) => {
 						{item.qty}
 					</Text>
 
-					<StyledQuantityButton onClick={handleIncreaseQuantity}>
+					<StyledQuantityButton onClick={handleIncreaseQuantity(item)}>
 						<img src={plusIcon} alt="Increase" width="16" height="16" />
 					</StyledQuantityButton>
 				</StyledQuantityControls>
 
 				{/* <Indent mT={12} /> */}
 
-				<StyledDeleteButton onClick={handleRemoveItem}>
+				<StyledDeleteButton onClick={handleRemoveItem(item.id)}>
 					<img src={deleteIcon} alt="Remove" width="20" height="20" />
 				</StyledDeleteButton>
 			</Flexbox>

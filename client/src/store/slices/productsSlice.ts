@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice, createSelector } from '@reduxjs/toolkit';
 import { TProduct, TProductForSearch } from '@src/common/types/product';
 import { TPaginationResponse } from '@src/common/types/response';
 import { getProducts } from '@src/store/thunk/products';
@@ -35,12 +35,20 @@ export const productsSlice = createSlice({
 	selectors: {
 		selectProductsForSearch: state => state.productsForSearch,
 		selectProductsItems: state => state.items,
-		selectProductsPagination: state => ({
-			currentPage: state.currentPage,
-			perPage: state.perPage,
-			total: state.total,
-			totalPages: state.totalPages,
-		}),
+		selectProductsPagination: createSelector(
+			[
+				state => state.currentPage,
+				state => state.perPage,
+				state => state.total,
+				state => state.totalPages,
+			],
+			(currentPage, perPage, total, totalPages) => ({
+				currentPage,
+				perPage,
+				total,
+				totalPages,
+			})
+		),
 		selectProductsLoading: state => state.isLoading,
 		selectProductsError: state => state.error,
 	},
